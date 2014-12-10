@@ -1,3 +1,4 @@
 tmp
 log
 config/deploy_config.rb
+config/settings.yml

@@ -9,3 +9,4 @@ set :hostname, 'example.com'
 set :domain, 'ssh.example.com'
 set :deploy_to, "/var/www/#{app_name}"
 set :repository, 'git@github.com:Pavliko/sinatra-sample.git'
+set :slack_webhook, 'https://hooks.slack.com/services...'

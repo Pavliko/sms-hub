@@ -22,7 +22,7 @@ set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/unicorn.rb', 'config/nginx.conf', 'config/monit.conf', 'log', 'tmp']
+set :shared_paths, ['config/settings.yml', 'config/unicorn.rb', 'config/nginx.conf', 'config/monit.conf', 'log', 'tmp']
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
@@ -70,6 +70,7 @@ task :setup => :environment do
   invoke :'sync_unicorn'
   invoke :'sync_nginx'
   invoke :'sync_monit'
+  invoke :'sync_settings'
 end
 
 task :setup_finish => :environment do
@@ -114,6 +115,12 @@ task :sync_monit => :environment do
   config_path = "#{deploy_to}/#{shared_path}/config/monit.conf"
   queue! %[cp "#{deploy_to}/#{current_path}/config/monit.example.conf" "#{config_path}"]
   replace_defaults(config_path)
+end
+
+task :sync_settings => :environment do
+  config_path = "#{deploy_to}/#{shared_path}/config/settings.yml"
+  queue! %[cp "#{deploy_to}/#{current_path}/config/settings.example.yml" "#{config_path}"]
+  sed(:slack_webhook, slack_webhook, config_path)
 end
 
 

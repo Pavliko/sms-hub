@@ -11,3 +11,8 @@ bundle install
 bundle exec mina setup
 bundle exec mina deploy setup_finish
 ```
+
+ TEST request
+```
+curl -D - -X POST http://localhost:3000/pull -F "from=" -F "message=sample text message" -F "=123456"
+```
